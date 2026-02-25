@@ -197,7 +197,28 @@ TOML has neither
 byte strings, nor
 non-string object keys.
 
+jaq can read [TOML 1.1.0](https://toml.io/en/v1.1.0) values,
+with the exception of date-time values.
+
 When writing TOML, jaq converts invalid UTF-8 sequences as for [CBOR](#cbor).
+
+```
+$ echo 'a = {b = 1, c = {d = 2, e = [], f = [{g = 3}, {h = 4}]}}' | jaq --from toml --to toml
+[a]
+b = 1
+
+[a.c]
+d = 2
+e = []
+
+[[a.c.f]]
+g = 3
+
+[[a.c.f]]
+h = 4
+$ jaq '.profile.release["codegen-units"]' Cargo.toml
+1
+```
 
 
 ## XML
